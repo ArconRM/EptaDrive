@@ -1,0 +1,6 @@
+@EptaDrive_HostAddress = http://localhost:5097
+
+GET {{EptaDrive_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
