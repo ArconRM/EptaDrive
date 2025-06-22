@@ -5,7 +5,9 @@ using EptaDrive.Repository.Interfaces;
 using EptaDrive.Service;
 using EptaDrive.Service.Interfaces;
 using EptaDrive.Utlis;
+using Microsoft.AspNetCore.Http.Features;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Server.Kestrel.Core;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 
@@ -21,6 +23,16 @@ builder.Services.AddSwaggerGen();
 
 builder.Services.AddScoped<IUserFileRepository, UserFileRepository>();
 builder.Services.AddScoped<IUserFileService, UserFileService>();
+
+builder.Services.Configure<FormOptions>(options =>
+{
+    options.MultipartBodyLengthLimit = 268435456; // 256 MB
+});
+
+builder.Services.Configure<KestrelServerOptions>(options =>
+{
+    options.Limits.MaxRequestBodySize = 268435456; // 256 MB
+});
 
 builder.Services.AddDbContext<EptaDriveContext>(options =>
     options.UseNpgsql(builder.Configuration.GetConnectionString("PostgresSQL")));

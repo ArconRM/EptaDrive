@@ -1,10 +1,12 @@
 using EptaDrive.Entities;
 using EptaDrive.Entities.Requests;
 using EptaDrive.Service.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace EptaDrive.Controllers;
 
+[Authorize]
 public class UserFileController: Controller
 {
     private readonly ILogger<UserFileController> _logger;
@@ -43,7 +45,7 @@ public class UserFileController: Controller
         try
         {
             var userFileData = await _userFileService.GetFileAsync(userFileId, token);
-            return File(userFileData.Stream, userFileData.ContentType, userFileData.FileName);;
+            return File(userFileData.Stream, userFileData.ContentType, userFileData.FileName);
         }
         catch (Exception e)
         {
